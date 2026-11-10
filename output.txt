@@ -1,4 +1,3 @@
-Abstract class check passed: Can't instantiate abstract class LibraryItem with abstract method late_fee
 Alice borrowed: Book: Python 101 by A. Rao (ID 1)
 Could not borrow: "Python 101" is already borrowed.
 Could not borrow: "Python 101" is already borrowed.
