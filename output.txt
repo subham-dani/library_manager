@@ -1,69 +1,18 @@
-from models import Book, DVD, LibraryItem, Magazine, Member
-
-
-# Abstract base classes define shared behavior and require subclasses to implement
-# their own late-fee calculation.
-try:
-    LibraryItem("Unspecified item", 0)
-except TypeError as error:
-    print("Abstract class check passed:", error)
-
-book = Book("Python 101", 1, "A. Rao")
-magazine = Magazine("Science Today", 2, 42)
-dvd = DVD("Learning Python", 3, 120)
-extra_book = Book("Clean Code", 4, "Robert C. Martin")
-alice = Member("Alice", 101)
-bob = Member("Bob", 102, max_items=1)
-
-try:
-    alice.borrow(book)
-    print("Alice borrowed:", book.describe())
-except ValueError as error:
-    print("Could not borrow:", error)
-
-try:
-    alice.borrow(book)
-except ValueError as error:
-    print("Could not borrow:", error)
-
-try:
-    bob.borrow(book)
-except ValueError as error:
-    print("Could not borrow:", error)
-
-for item in (magazine, dvd):
-    try:
-        alice.borrow(item)
-        print("Alice borrowed:", item.describe())
-    except ValueError as error:
-        print("Could not borrow:", error)
-
-try:
-    alice.borrow(extra_book)
-except ValueError as error:
-    print("Could not borrow:", error)
-
-try:
-    bob.return_item(book)
-except ValueError as error:
-    print("Could not return:", error)
-
-print("Alice's borrowed titles:", alice.borrowed_titles())
-
-try:
-    fee = alice.return_item(book, days_late=3)
-    print(f"Alice returned {book.title}; late fee: Rs {fee}")
-except ValueError as error:
-    print("Could not return:", error)
-print("Book available after return:", book.is_available())
-
-print("Late fees for 3 days:")
-for item in (book, magazine, dvd):
-    print(item.describe(), "-> Rs", item.late_fee(3))
-
-try:
-    print(book.__available)
-except AttributeError:
-    print("Direct access to book.__available raises AttributeError (it is private).")
-print("Book availability via is_available():", book.is_available())
-print("Total items created:", LibraryItem.total_items)
+Abstract class check passed: Can't instantiate abstract class LibraryItem with abstract method late_fee
+Alice borrowed: Book: Python 101 by A. Rao (ID 1)
+Could not borrow: "Python 101" is already borrowed.
+Could not borrow: "Python 101" is already borrowed.
+Alice borrowed: Magazine: Science Today, issue 42 (ID 2)
+Alice borrowed: DVD: Learning Python, 120 minutes (ID 3)
+Could not borrow: Alice has reached the borrow limit of 3 items.
+Could not return: Bob has not borrowed "Python 101".
+Alice's borrowed titles: ['Python 101', 'Science Today', 'Learning Python']
+Alice returned Python 101; late fee: Rs 6
+Book available after return: True
+Late fees for 3 days:
+Book: Python 101 by A. Rao (ID 1) -> Rs 6
+Magazine: Science Today, issue 42 (ID 2) -> Rs 3
+DVD: Learning Python, 120 minutes (ID 3) -> Rs 15
+Direct access to book.__available raises AttributeError (it is private).
+Book availability via is_available(): True
+Total items created: 4
