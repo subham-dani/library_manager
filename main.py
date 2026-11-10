@@ -1,5 +1,5 @@
 # main.py
-from models import Book, DVD, Magazine, Member
+from models import Book, DVD, LibraryItem, Magazine, Member
 
 
 book = Book("Python 101", 1, "A. Rao")
